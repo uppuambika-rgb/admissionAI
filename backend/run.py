@@ -13,4 +13,8 @@ if __name__ == "__main__":
     print("  Access API Docs: http://127.0.0.1:8000/docs")
     print("  Access Frontend: http://127.0.0.1:8000/")
     print("=" * 60)
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run(
+    "app.main:app",
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 8000))
+)
