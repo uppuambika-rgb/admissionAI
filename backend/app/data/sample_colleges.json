@@ -1,0 +1,587 @@
+[
+  {
+    "id": "IITB-CSE",
+    "college_name": "Indian Institute of Technology, Bombay",
+    "branch_name": "Computer Science and Engineering",
+    "college_type": "IIT",
+    "exam": "JEE Advanced",
+    "location": "Mumbai, Maharashtra",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 200000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 42000,
+    "scholarships": "100% tuition fee waiver for SC/ST/PwD and family income < 1 LPA; 66% remission for income 1-5 LPA; Institute Merit-cum-Means (MCM).",
+    "higher_study_opportunities": "World-class pedigree for top global MS/PhD admits (Stanford, MIT, Berkeley, CMU). Over 25% pursue graduate research.",
+    "entrepreneurship_opportunities": "Society for Innovation and Entrepreneurship (SINE) incubator on-campus; seed grants up to ₹25 Lakhs; alumni angel network.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Software Engineer", "AI/ML Scientist", "Quantitative Strategist", "Systems Architect"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 1, "closing_rank": 68 },
+      "OBC-NCL": { "opening_rank": 15, "closing_rank": 52 },
+      "SC": { "opening_rank": 5, "closing_rank": 25 },
+      "ST": { "opening_rank": 2, "closing_rank": 14 },
+      "EWS": { "opening_rank": 4, "closing_rank": 18 }
+    },
+    "curriculum_keywords": [
+      "Data Structures and Algorithms",
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Distributed Systems",
+      "Compiler Design",
+      "Computer Networks",
+      "Cybersecurity"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 32.5,
+      "placement_percentage": 98.2,
+      "top_recruiters": ["Google", "Microsoft", "Apple", "Jane Street", "Tower Research"],
+      "key_career_domains": ["Software Engineering", "AI Research", "Quantitative Finance", "Systems Architecture"]
+    },
+    "admission_notes": "Premier destination for top rankers. Extremely competitive cutoff with virtually zero variance across rounds."
+  },
+  {
+    "id": "IITD-MNC",
+    "college_name": "Indian Institute of Technology, Delhi",
+    "branch_name": "Mathematics and Computing",
+    "college_type": "IIT",
+    "exam": "JEE Advanced",
+    "location": "New Delhi",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 200000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 40000,
+    "scholarships": "Full tuition waiver for SC/ST and income < 1 LPA; partial tuition waiver for income 1-5 LPA; MCM scholarships.",
+    "higher_study_opportunities": "Top choice for international PhDs in Applied Mathematics, Machine Learning, and Financial Mathematics.",
+    "entrepreneurship_opportunities": "Foundation for Innovation and Technology Transfer (FITT) incubation; research commercialization grants.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Quantitative Trader", "Data Scientist", "Machine Learning Engineer", "Financial Analyst"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 95, "closing_rank": 350 },
+      "OBC-NCL": { "opening_rank": 55, "closing_rank": 190 },
+      "SC": { "opening_rank": 30, "closing_rank": 110 },
+      "ST": { "opening_rank": 18, "closing_rank": 75 },
+      "EWS": { "opening_rank": 22, "closing_rank": 95 }
+    },
+    "curriculum_keywords": [
+      "Advanced Linear Algebra",
+      "Probability and Stochastic Processes",
+      "Machine Learning",
+      "Financial Engineering",
+      "Discrete Mathematics",
+      "Algorithm Design"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 28.0,
+      "placement_percentage": 96.5,
+      "top_recruiters": ["Goldman Sachs", "DE Shaw", "Uber", "Microsoft", "WorldQuant"],
+      "key_career_domains": ["Quantitative Finance", "Data Science", "Algorithm Engineering", "Cryptography"]
+    },
+    "admission_notes": "Ideal blend of theoretical mathematics and computational algorithms. Huge recruiter interest from algorithmic trading and fintech firms."
+  },
+  {
+    "id": "IITM-EE",
+    "college_name": "Indian Institute of Technology, Madras",
+    "branch_name": "Electrical Engineering",
+    "college_type": "IIT",
+    "exam": "JEE Advanced",
+    "location": "Chennai, Tamil Nadu",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 200000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 38000,
+    "scholarships": "Full tuition fee waiver for SC/ST; institute merit-cum-means assistance; central sector schemes.",
+    "higher_study_opportunities": "Outstanding research labs in semiconductors, quantum computing, and VLSI; top pipeline to US/EU doctoral programs.",
+    "entrepreneurship_opportunities": "IIT Madras Research Park & Incubation Cell—India's leading deep-tech and hardware incubator.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["VLSI Design Engineer", "Hardware AI Engineer", "Embedded Systems Developer", "Robotics Engineer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 320, "closing_rank": 1150 },
+      "OBC-NCL": { "opening_rank": 170, "closing_rank": 620 },
+      "SC": { "opening_rank": 80, "closing_rank": 340 },
+      "ST": { "opening_rank": 45, "closing_rank": 210 },
+      "EWS": { "opening_rank": 85, "closing_rank": 290 }
+    },
+    "curriculum_keywords": [
+      "Signal Processing",
+      "VLSI Design",
+      "Embedded Systems",
+      "Control Systems",
+      "Deep Learning Hardware",
+      "Semiconductor Devices"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 22.0,
+      "placement_percentage": 93.0,
+      "top_recruiters": ["Qualcomm", "Texas Instruments", "NVIDIA", "Intel", "Apple"],
+      "key_career_domains": ["Semiconductor Design", "Embedded Systems", "Hardware AI Acceleration", "Robotics"]
+    },
+    "admission_notes": "Outstanding research labs in semiconductors and 5G/6G systems. Strong dual opportunities in core electronics and software."
+  },
+  {
+    "id": "NITT-CSE",
+    "college_name": "National Institute of Technology, Trichy",
+    "branch_name": "Computer Science and Engineering",
+    "college_type": "NIT",
+    "exam": "JEE Main",
+    "location": "Tiruchirappalli, Tamil Nadu",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 125000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 36000,
+    "scholarships": "100% tuition fee waiver for SC/ST and income < 1 LPA; 66% fee waiver for income 1-5 LPA; post-matric scholarships.",
+    "higher_study_opportunities": "Strong placement in US universities for MS in CS; active research collaborations with IIT Madras and IISc.",
+    "entrepreneurship_opportunities": "Center for Entrepreneurship Development and Incubation (CEDI); startup seed support up to ₹10 Lakhs.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Software Engineer", "Cloud Solutions Architect", "Full Stack Developer", "Site Reliability Engineer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 1200, "closing_rank": 4800 },
+      "OBC-NCL": { "opening_rank": 600, "closing_rank": 2100 },
+      "SC": { "opening_rank": 250, "closing_rank": 950 },
+      "ST": { "opening_rank": 120, "closing_rank": 480 },
+      "EWS": { "opening_rank": 350, "closing_rank": 1200 }
+    },
+    "curriculum_keywords": [
+      "Object Oriented Programming",
+      "Database Management",
+      "Computer Architecture",
+      "Cloud Computing",
+      "Artificial Intelligence",
+      "Web Technologies"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 19.5,
+      "placement_percentage": 97.0,
+      "top_recruiters": ["Amazon", "Oracle", "Morgan Stanley", "Cisco", "Samsung"],
+      "key_career_domains": ["Software Development", "Full Stack Development", "Cloud Architecture", "DevOps"]
+    },
+    "admission_notes": "Top-ranked NIT in India. Excellent peer group, established alumni network, and highly consistent campus hiring."
+  },
+  {
+    "id": "NITK-IT",
+    "college_name": "National Institute of Technology Karnataka, Surathkal",
+    "branch_name": "Information Technology",
+    "college_type": "NIT",
+    "exam": "JEE Main",
+    "location": "Surathkal, Karnataka",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 125000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 35000,
+    "scholarships": "Fee remissions for income categories (full waiver < 1 LPA, 2/3rd for 1-5 LPA); SC/ST full tuition waivers.",
+    "higher_study_opportunities": "Consistent alumni admits to CMU, Columbia, Georgia Tech, and NUS for CS/IT master's programs.",
+    "entrepreneurship_opportunities": "STEP (Science & Technology Entrepreneurs Park) at Surathkal; campus incubator with mentoring and workspace.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Software Developer", "Data Engineer", "Information Security Analyst", "Product Engineer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 2200, "closing_rank": 6200 },
+      "OBC-NCL": { "opening_rank": 1100, "closing_rank": 3100 },
+      "SC": { "opening_rank": 400, "closing_rank": 1400 },
+      "ST": { "opening_rank": 190, "closing_rank": 650 },
+      "EWS": { "opening_rank": 550, "closing_rank": 1700 }
+    },
+    "curriculum_keywords": [
+      "Software Engineering",
+      "Information Security",
+      "Machine Learning",
+      "Data Analytics",
+      "Mobile Computing",
+      "Computer Networks"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 18.0,
+      "placement_percentage": 95.5,
+      "top_recruiters": ["Microsoft", "Intuit", "Goldman Sachs", "Salesforce", "Atlassian"],
+      "key_career_domains": ["Software Development", "Data Engineering", "Information Security", "Product Engineering"]
+    },
+    "admission_notes": "Beach campus with elite tier reputation. Curriculum parallels CSE closely with slight emphasis on enterprise network and cloud technologies."
+  },
+  {
+    "id": "NITT-ECE",
+    "college_name": "National Institute of Technology, Trichy",
+    "branch_name": "Electronics and Communication Engineering",
+    "college_type": "NIT",
+    "exam": "JEE Main",
+    "location": "Tiruchirappalli, Tamil Nadu",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 125000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 36000,
+    "scholarships": "Tuition waivers based on family income thresholds and reserved category norms.",
+    "higher_study_opportunities": "Strong core research group in RF design and signal processing; strong MTech & PhD feeder.",
+    "entrepreneurship_opportunities": "IoT and hardware prototyping support via CEDI and departmental research centers.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Embedded Firmware Engineer", "Telecom Systems Engineer", "VLSI Engineer", "Software Developer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 4500, "closing_rank": 8900 },
+      "OBC-NCL": { "opening_rank": 2200, "closing_rank": 4400 },
+      "SC": { "opening_rank": 900, "closing_rank": 2100 },
+      "ST": { "opening_rank": 450, "closing_rank": 1100 },
+      "EWS": { "opening_rank": 1200, "closing_rank": 2600 }
+    },
+    "curriculum_keywords": [
+      "Digital Communication",
+      "Microprocessors and Microcontrollers",
+      "Analog Electronics",
+      "Wireless Networks",
+      "VLSI Design",
+      "IoT Systems"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 15.0,
+      "placement_percentage": 92.0,
+      "top_recruiters": ["Qualcomm", "NXP Semiconductors", "Samsung R&D", "Cisco", "Robert Bosch"],
+      "key_career_domains": ["Core Electronics", "IoT Systems", "Firmware Engineering", "Software Engineering"]
+    },
+    "admission_notes": "High flexibility allowing students to target core semiconductor hardware roles or software tech roles."
+  },
+  {
+    "id": "IIITH-CSE",
+    "college_name": "International Institute of Information Technology, Hyderabad",
+    "branch_name": "Computer Science and Engineering",
+    "college_type": "IIIT",
+    "exam": "JEE Main",
+    "location": "Hyderabad, Telangana",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 360000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 48000,
+    "scholarships": "Pratibha scholarship by state government; institute need-based financial assistance and teaching assistantships.",
+    "higher_study_opportunities": "Elite reputation for research; top publications at CVPR, ACL, NeurIPS; high acceptance into top US PhD programs.",
+    "entrepreneurship_opportunities": "CIE (Center for Innovation and Entrepreneurship)—one of India's largest academic tech startup hubs.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["AI/ML Research Engineer", "Competitive Coding Specialist", "Algorithmic Developer", "Robotics Specialist"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 400, "closing_rank": 1800 },
+      "OBC-NCL": { "opening_rank": 300, "closing_rank": 1500 },
+      "SC": { "opening_rank": 200, "closing_rank": 1200 },
+      "ST": { "opening_rank": 150, "closing_rank": 900 },
+      "EWS": { "opening_rank": 250, "closing_rank": 1400 }
+    },
+    "curriculum_keywords": [
+      "Competitive Programming",
+      "Natural Language Processing",
+      "Computer Vision",
+      "Machine Learning",
+      "Robotics",
+      "Advanced Data Structures"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 30.0,
+      "placement_percentage": 99.0,
+      "top_recruiters": ["Google", "Meta", "Bloomberg", "Adobe", "Uber"],
+      "key_career_domains": ["AI/ML Research", "Algorithmic Engineering", "Robotics", "High-Performance Computing"]
+    },
+    "admission_notes": "Coding paradise with world-class ICPC competitive programming and AI research culture. Rigorous workload but supreme outcomes."
+  },
+  {
+    "id": "DTU-SE",
+    "college_name": "Delhi Technological University",
+    "branch_name": "Software Engineering",
+    "college_type": "State University",
+    "exam": "JEE Main",
+    "location": "New Delhi",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 190000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 45000,
+    "scholarships": "Delhi government fee concession schemes (up to 100% waiver for underprivileged backgrounds); DTU merit scholarship.",
+    "higher_study_opportunities": "Solid track record of alumni attending US/German universities for MS in Software Systems & Product Design.",
+    "entrepreneurship_opportunities": "DTU Innovation and Incubation Foundation; strong Delhi-NCR startup founder network.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Software Development Engineer", "DevOps Engineer", "Cloud Specialist", "Product Development Engineer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 6000, "closing_rank": 12500 },
+      "OBC-NCL": { "opening_rank": 3500, "closing_rank": 7800 },
+      "SC": { "opening_rank": 1500, "closing_rank": 3900 },
+      "ST": { "opening_rank": 800, "closing_rank": 2200 },
+      "EWS": { "opening_rank": 1800, "closing_rank": 4200 }
+    },
+    "curriculum_keywords": [
+      "Software Testing and QA",
+      "Web Applications Architecture",
+      "DevOps and CI/CD",
+      "Database Systems",
+      "Agile Project Management",
+      "Cloud Computing"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 16.5,
+      "placement_percentage": 91.0,
+      "top_recruiters": ["Microsoft", "Amazon", "Adobe", "Paytm", "Zomato"],
+      "key_career_domains": ["Software Engineering", "Product Development", "DevOps", "Site Reliability Engineering"]
+    },
+    "admission_notes": "Prime Delhi-NCR tech hub proximity with top-tier startup and MNC placement access."
+  },
+  {
+    "id": "VNIT-CSE",
+    "college_name": "Visvesvaraya National Institute of Technology, Nagpur",
+    "branch_name": "Computer Science and Engineering",
+    "college_type": "NIT",
+    "exam": "JEE Main",
+    "location": "Nagpur, Maharashtra",
+    "tier_rating": "Tier-2",
+    "annual_tuition_fee_inr": 125000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 34000,
+    "scholarships": "Central NIT tuition fee remissions for family income brackets and reserved categories.",
+    "higher_study_opportunities": "Active research culture with opportunities for GATE coaching and MS admissions abroad.",
+    "entrepreneurship_opportunities": "VNIT Center for Innovation; annual startup expo and prototyping labs.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Software Developer", "Full Stack Engineer", "IT Consultant", "Systems Programmer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 5500, "closing_rank": 11000 },
+      "OBC-NCL": { "opening_rank": 3200, "closing_rank": 6500 },
+      "SC": { "opening_rank": 1200, "closing_rank": 3200 },
+      "ST": { "opening_rank": 600, "closing_rank": 1800 },
+      "EWS": { "opening_rank": 1600, "closing_rank": 3800 }
+    },
+    "curriculum_keywords": [
+      "Operating Systems",
+      "Algorithms",
+      "Artificial Intelligence",
+      "Software Engineering",
+      "Computer Graphics",
+      "Network Security"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 13.5,
+      "placement_percentage": 89.0,
+      "top_recruiters": ["Siemens", "Capgemini", "Amazon", "TCS Digital", "L&T Infotech"],
+      "key_career_domains": ["Software Development", "IT Consulting", "System Administration", "Web Technologies"]
+    },
+    "admission_notes": "Solid mid-tier NIT with very steady placement consistency and balanced academic pace."
+  },
+  {
+    "id": "NITW-MECH",
+    "college_name": "National Institute of Technology, Warangal",
+    "branch_name": "Mechanical Engineering",
+    "college_type": "NIT",
+    "exam": "JEE Main",
+    "location": "Warangal, Telangana",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 125000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 35000,
+    "scholarships": "Government of India tuition fee remission based on category and income declarations.",
+    "higher_study_opportunities": "Strong feeder to German TU9 universities and US universities for MS in Automotive & Robotics.",
+    "entrepreneurship_opportunities": "NITW Innovation Garage; seed incubation support for hardware and manufacturing ventures.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Mechanical Design Engineer", "Robotics Specialist", "Plant Operations Engineer", "Automotive Engineer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 11000, "closing_rank": 21000 },
+      "OBC-NCL": { "opening_rank": 6500, "closing_rank": 12500 },
+      "SC": { "opening_rank": 2800, "closing_rank": 5800 },
+      "ST": { "opening_rank": 1300, "closing_rank": 3100 },
+      "EWS": { "opening_rank": 3100, "closing_rank": 6400 }
+    },
+    "curriculum_keywords": [
+      "Thermodynamics",
+      "Fluid Mechanics",
+      "Robotics and Automation",
+      "CAD/CAM",
+      "Automotive Engineering",
+      "Manufacturing Processes"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 10.5,
+      "placement_percentage": 84.0,
+      "top_recruiters": ["Tata Motors", "Mahindra", "L&T", "Schlumberger", "Maruti Suzuki"],
+      "key_career_domains": ["Automotive Design", "Thermal Engineering", "Robotics and Automation", "Operations Management"]
+    },
+    "admission_notes": "Historically reputed mechanical department with rich workshop culture and modern mechatronics lab integration."
+  },
+  {
+    "id": "MIT-CSE",
+    "college_name": "Manipal Institute of Technology",
+    "branch_name": "Computer Science and Engineering",
+    "college_type": "Private University",
+    "exam": "MET",
+    "location": "Manipal, Karnataka",
+    "tier_rating": "Tier-2",
+    "annual_tuition_fee_inr": 335000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 72000,
+    "scholarships": "Scholarships for MET top rankers (up to 100% tuition waiver); Freeship and merit-cum-means assistance.",
+    "higher_study_opportunities": "Over 20% of batch pursues master's abroad; established alumni base in Silicon Valley and Europe.",
+    "entrepreneurship_opportunities": "MUTBI (Manipal University Technology Business Incubator) funded by DST, Govt. of India.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Software Developer", "Cloud Solutions Consultant", "Front-End Engineer", "FinTech Developer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 12000, "closing_rank": 26000 },
+      "OBC-NCL": { "opening_rank": 12000, "closing_rank": 26000 },
+      "SC": { "opening_rank": 10000, "closing_rank": 24000 },
+      "ST": { "opening_rank": 9000, "closing_rank": 22000 },
+      "EWS": { "opening_rank": 11000, "closing_rank": 25000 }
+    },
+    "curriculum_keywords": [
+      "Full Stack Development",
+      "Data Structures",
+      "Artificial Intelligence",
+      "Cloud Infrastructure",
+      "Cybersecurity",
+      "Mobile Applications"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 11.0,
+      "placement_percentage": 88.0,
+      "top_recruiters": ["Dell", "Microsoft", "SAP Labs", "Deloitte", "Accenture"],
+      "key_career_domains": ["Software Development", "Cloud Solutions", "Tech Consulting", "FinTech"]
+    },
+    "admission_notes": "Top private engineering institute with vibrant student projects (Solar Car, Formula Student) and modern curriculum."
+  },
+  {
+    "id": "PES-AI",
+    "college_name": "PES University",
+    "branch_name": "Artificial Intelligence and Machine Learning",
+    "college_type": "Private University",
+    "exam": "KCET / PESSAT",
+    "location": "Bengaluru, Karnataka",
+    "tier_rating": "Tier-2",
+    "annual_tuition_fee_inr": 410000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 85000,
+    "scholarships": "Prof. CNR Rao Merit Scholarship (up to 40% tuition cashback for top 20% academic performers).",
+    "higher_study_opportunities": "Strong tie-ups for international MS admissions; dedicated research labs in GenAI and Vision.",
+    "entrepreneurship_opportunities": "PESU Venture Labs in partnership with seed venture firms; pre-seed funding up to $200,000 for student startups.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["AI/ML Engineer", "NLP Specialist", "Data Analyst", "Computer Vision Specialist"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 16000, "closing_rank": 35000 },
+      "OBC-NCL": { "opening_rank": 15000, "closing_rank": 33000 },
+      "SC": { "opening_rank": 12000, "closing_rank": 30000 },
+      "ST": { "opening_rank": 11000, "closing_rank": 28000 },
+      "EWS": { "opening_rank": 14000, "closing_rank": 32000 }
+    },
+    "curriculum_keywords": [
+      "Deep Learning",
+      "Natural Language Processing",
+      "Computer Vision",
+      "Generative AI",
+      "Big Data Systems",
+      "Reinforcement Learning"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 10.0,
+      "placement_percentage": 86.5,
+      "top_recruiters": ["Akamai", "Cisco", "Robert Bosch", "Target", "Infosys"],
+      "key_career_domains": ["Machine Learning Engineering", "Data Analytics", "AI Application Development", "NLP Solutions"]
+    },
+    "admission_notes": "Located in India's Silicon Valley; strong industry tie-ups, hackathons, and high internship conversion rate."
+  },
+  {
+    "id": "VIT-ECE",
+    "college_name": "Vellore Institute of Technology",
+    "branch_name": "Electronics and Communication Engineering",
+    "college_type": "Private University",
+    "exam": "VITEEE",
+    "location": "Vellore, Tamil Nadu",
+    "tier_rating": "Tier-2",
+    "annual_tuition_fee_inr": 198000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 65000,
+    "scholarships": "GV School Development Programme (GVSDP)—up to 100% fee waiver for state/board toppers.",
+    "higher_study_opportunities": "Established study-abroad office; 2+2 dual degree options with US and Australian universities.",
+    "entrepreneurship_opportunities": "VITTBI (Technology Business Incubator); extensive maker space and fabrication facility.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Hardware QA Engineer", "Telecom Engineer", "IoT Developer", "IT Services Specialist"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 25000, "closing_rank": 48000 },
+      "OBC-NCL": { "opening_rank": 25000, "closing_rank": 48000 },
+      "SC": { "opening_rank": 22000, "closing_rank": 45000 },
+      "ST": { "opening_rank": 20000, "closing_rank": 42000 },
+      "EWS": { "opening_rank": 24000, "closing_rank": 47000 }
+    },
+    "curriculum_keywords": [
+      "Digital Circuits",
+      "Embedded Systems",
+      "Sensors and Actuators",
+      "Communication Systems",
+      "Microcontroller Programming",
+      "IoT"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 8.5,
+      "placement_percentage": 85.0,
+      "top_recruiters": ["Wipro", "Cognizant", "TCS", "Intellect Design", "Schneider Electric"],
+      "key_career_domains": ["Embedded Systems", "IT Services", "Telecom Engineering", "Hardware QA"]
+    },
+    "admission_notes": "Large intake with tiered fee categories. High volume campus placement opportunities."
+  },
+  {
+    "id": "THAPAR-CSE",
+    "college_name": "Thapar Institute of Engineering & Technology",
+    "branch_name": "Computer Science and Engineering",
+    "college_type": "Private University",
+    "exam": "JEE Main",
+    "location": "Patiala, Punjab",
+    "tier_rating": "Tier-2",
+    "annual_tuition_fee_inr": 385000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 68000,
+    "scholarships": "Merit scholarships based on JEE Main rank and 10+2 marks; tuition reductions for top percentile students.",
+    "higher_study_opportunities": "Active international exchange program with Trinity College Dublin; strong graduate outcomes in Canada/US.",
+    "entrepreneurship_opportunities": "STEP-TIET incubation; venture funding opportunities and entrepreneurship mentorship cell.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Software Development Engineer", "Enterprise Solutions Specialist", "Cloud Engineer", "Financial Software Developer"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 18000, "closing_rank": 42000 },
+      "OBC-NCL": { "opening_rank": 18000, "closing_rank": 42000 },
+      "SC": { "opening_rank": 15000, "closing_rank": 38000 },
+      "ST": { "opening_rank": 14000, "closing_rank": 35000 },
+      "EWS": { "opening_rank": 17000, "closing_rank": 40000 }
+    },
+    "curriculum_keywords": [
+      "Data Structures",
+      "Cloud Architecture",
+      "Software Engineering",
+      "Database Systems",
+      "Artificial Intelligence",
+      "Information Security"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 11.5,
+      "placement_percentage": 87.0,
+      "top_recruiters": ["American Express", "Oracle", "Cisco", "IBM", "Deloitte"],
+      "key_career_domains": ["Software Development", "Financial Technology", "Enterprise Systems", "Consulting"]
+    },
+    "admission_notes": "Long-standing institution with excellent infrastructure and strong legacy ties to North Indian industry recruiters."
+  },
+  {
+    "id": "JADAVPUR-MECH",
+    "college_name": "Jadavpur University",
+    "branch_name": "Mechanical Engineering",
+    "college_type": "State University",
+    "exam": "WBJEE",
+    "location": "Kolkata, West Bengal",
+    "tier_rating": "Tier-1",
+    "annual_tuition_fee_inr": 10000,
+    "hostel_available": true,
+    "annual_hostel_fee_inr": 12000,
+    "scholarships": "Nominal tuition fee subsidized by state government; Swami Vivekananda Merit-cum-Means scholarship for state students.",
+    "higher_study_opportunities": "Elite research reputation; frequent admits to IISc, IITs, and top US graduate schools with direct fellowships.",
+    "entrepreneurship_opportunities": "Industry-institute partnership cell; research commercialization labs in thermal and manufacturing.",
+    "cutoff_year_round": "2024 (Round 6 Closing)",
+    "typical_roles": ["Mechanical Systems Engineer", "Process Engineer", "Operations Analyst", "Engineering Consultant"],
+    "category_cutoffs": {
+      "General": { "opening_rank": 14000, "closing_rank": 28000 },
+      "OBC-NCL": { "opening_rank": 8000, "closing_rank": 16000 },
+      "SC": { "opening_rank": 4000, "closing_rank": 9500 },
+      "ST": { "opening_rank": 2000, "closing_rank": 5200 },
+      "EWS": { "opening_rank": 5000, "closing_rank": 11000 }
+    },
+    "curriculum_keywords": [
+      "Applied Mechanics",
+      "Thermal Power Engineering",
+      "Fluid Dynamics",
+      "Machine Design",
+      "Manufacturing Science"
+    ],
+    "placement_stats": {
+      "median_salary_lpa": 10.0,
+      "placement_percentage": 85.5,
+      "top_recruiters": ["Tata Steel", "ITC", "L&T", "PwC", "ExxonMobil"],
+      "key_career_domains": ["Core Manufacturing", "Process Engineering", "Operations", "Consulting"]
+    },
+    "admission_notes": "Extremely high ROI due to nominal government tuition fees. Rich academic heritage and strong core engineering placements."
+  }
+]
