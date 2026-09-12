@@ -1,8 +1,4 @@
-const API_BASE =
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
-    ? 'http://127.0.0.1:8000'
-    : '';
+const API_BASE = 'https://admission-counselling-2.onrender.com';
 
 export async function sendChatMessage(message, history, currentProfile) {
   const res = await fetch(`${API_BASE}/api/chat`, {
