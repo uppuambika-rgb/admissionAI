@@ -4,4 +4,4 @@ pydantic>=2.6.0
 python-dotenv>=1.0.0
 requests>=2.31.0
 httpx>=0.28.0
-pymongo[srv]>=4.7.2
+pymongo>=4.7.2
