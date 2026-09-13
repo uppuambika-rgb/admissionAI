@@ -83,8 +83,8 @@ admission_counselling/
    ```powershell
    python run.py
    ```
-   The backend will be running at `http://127.0.0.1:8000`.
-   Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
+   The backend will be running at `http://https://admissionai-1.onrender.com`.
+   Interactive API documentation is available at `http://https://admissionai-1.onrender.com/docs`.
 
 ### Step 2: Run Frontend (React + Vite)
 

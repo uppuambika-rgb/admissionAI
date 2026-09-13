@@ -10,8 +10,8 @@ if current_dir not in sys.path:
 if __name__ == "__main__":
     print("=" * 60)
     print("  Starting AI Admission Counselling Agent Backend")
-    print("  Access API Docs: http://127.0.0.1:8000/docs")
-    print("  Access Frontend: http://127.0.0.1:8000/")
+    print("  Access API Docs: https://admissionai-1.onrender.com/docs")
+    print("  Access Frontend: https://admissionai-1.onrender.com/")
     print("=" * 60)
     uvicorn.run(
     "app.main:app",
