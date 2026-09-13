@@ -1,4 +1,4 @@
-const API_URL = "https://admission-counselling-2.onrender.com";
+const API_URL = "https://admissionai-1.onrender.com";
 
 // ── Auth ──────────────────────────────────────────────────────
 export async function registerUser(name, email, password) {
