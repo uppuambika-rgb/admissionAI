@@ -1,12 +1,14 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
+from typing import List, Optional
+from pydantic import BaseModel, EmailStr
 
 from app.config import settings
 from app.models.student import StudentProfile, ChatRequest, ChatResponse
 from app.models.program import CollegeProgram, RecommendationResponse
 from app.services.ranker import load_college_programs, generate_recommendations
 from app.services.ai_counsellor import generate_chat_reply, enrich_explanations_with_ai
+from app.services.auth_service import register_user, login_user, get_user_from_token, logout_user
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -33,6 +35,62 @@ DIST_DIR = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
 @app.get("/api/health")
 def health_check():
     return {"status": "healthy", "gemini_configured": bool(settings.GEMINI_API_KEY)}
+
+
+# ── Auth models ────────────────────────────────────────────────
+class RegisterRequest(BaseModel):
+    name: str
+    email: str
+    password: str
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+# ── Auth endpoints ─────────────────────────────────────────────
+@app.post("/api/auth/register")
+def register(req: RegisterRequest):
+    if len(req.password) < 6:
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters.")
+    if not req.name.strip():
+        raise HTTPException(status_code=400, detail="Name is required.")
+    try:
+        user = register_user(req.name, req.email, req.password)
+        return {"message": "Account created successfully.", "user": user}
+    except ValueError as e:
+        raise HTTPException(status_code=409, detail=str(e))
+
+
+@app.post("/api/auth/login")
+def login(req: LoginRequest):
+    try:
+        result = login_user(req.email, req.password)
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=str(e))
+
+
+@app.get("/api/auth/me")
+def me(authorization: Optional[str] = Header(default=None)):
+    token = _extract_token(authorization)
+    user = get_user_from_token(token)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid or expired token.")
+    return user
+
+
+@app.post("/api/auth/logout")
+def logout(authorization: Optional[str] = Header(default=None)):
+    token = _extract_token(authorization)
+    logout_user(token)
+    return {"message": "Logged out successfully."}
+
+
+def _extract_token(authorization: Optional[str]) -> str:
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Authorization header missing or malformed.")
+    return authorization.split(" ", 1)[1]
 
 
 @app.get("/api/programs", response_model=List[CollegeProgram])

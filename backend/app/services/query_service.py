@@ -23,69 +23,146 @@ DISCLAIMER_TEXT = (
     "They represent estimated probabilistic ranges and do not guarantee future seat allotment or job placement."
 )
 
+# ── Intent Classification ────────────────────────────────────────────────────
+
 def classify_intent(message: str) -> str:
     """
-    Classifies student question into a normalized intent category without hardcoded sentence matching.
+    Classifies student question into a normalized intent category.
+    Improved to handle a wider range of natural phrasings and follow-up questions.
     """
     msg = message.lower().strip()
 
     # 1. Why ranked first / ranking rationale
-    if any(k in msg for k in ["why did you rank", "why is this ranked first", "why ranked #1", "why rank this first", "why first"]):
+    if any(k in msg for k in ["why did you rank", "why is this ranked first", "why ranked #1",
+                               "why rank this first", "why first", "why is it first", "why top"]):
         return "WHY_FIRST_RANK"
 
     # 2. Preference list inquiry
-    if any(k in msg for k in ["preference list", "choice filling", "my choices", "show preference", "show choices"]):
+    if any(k in msg for k in ["preference list", "choice filling", "my choices", "show preference",
+                               "show choices", "choice sheet", "preference sheet"]):
         return "PREFERENCE_LIST"
 
-    # 3. Specific college type queries (e.g. NITs, IITs)
-    if "nit" in msg or "nits" in msg:
-        return "NIT_ADMISSION"
-    if "iit" in msg or "iits" in msg:
+    # 3. College type queries — order matters: check Advanced before Main
+    if any(k in msg for k in ["jee advanced", "iit", "iits", "top iit", "iit bombay", "iit delhi",
+                               "iit madras", "iit kharagpur", "iit roorkee", "iit kanpur",
+                               "iit hyderabad", "iit guwahati", "iit bhu"]):
         return "IIT_ADMISSION"
 
-    # 4. Branch queries (CSE, ECE, Mechanical)
-    if any(k in msg for k in ["can i get cse", "get cse", "computer science", "cse options", "cs options"]):
+    if any(k in msg for k in ["nit", "nits", "nit trichy", "nit warangal", "nit surathkal",
+                               "nit calicut", "nit rourkela", "nit allahabad", "nit kurukshetra",
+                               "national institute"]):
+        return "NIT_ADMISSION"
+
+    if any(k in msg for k in ["iiit", "iiits", "iiit hyderabad", "iiit bangalore", "iiit delhi",
+                               "international institute of information"]):
+        return "IIIT_ADMISSION"
+
+    if any(k in msg for k in ["gfti", "government funded", "central university"]):
+        return "GFTI_ADMISSION"
+
+    # 4. Branch queries — expanded beyond only CSE
+    if any(k in msg for k in ["can i get cse", "get cse", "computer science", "cse options",
+                               "cs options", "btech cs", "b.tech cs"]):
         return "BRANCH_CSE"
 
-    # 5. Tier-specific queries (Safest, Likely, Aspirational)
-    if any(k in msg for k in ["safest", "safest options", "safest colleges", "safe options", "safe colleges", "my safe"]):
+    if any(k in msg for k in ["ece", "electronics and communication", "electronics branch",
+                               "get ece", "can i get ece"]):
+        return "BRANCH_ECE"
+
+    if any(k in msg for k in ["mechanical", "mech branch", "get mechanical",
+                               "can i get mechanical"]):
+        return "BRANCH_MECH"
+
+    if any(k in msg for k in ["civil", "civil branch", "get civil"]):
+        return "BRANCH_CIVIL"
+
+    if any(k in msg for k in ["electrical", "eee", "get electrical"]):
+        return "BRANCH_EE"
+
+    if any(k in msg for k in ["data science", "ds branch", "ai branch",
+                               "artificial intelligence branch", "get data science"]):
+        return "BRANCH_DS_AI"
+
+    # 5. Tier-specific queries
+    if any(k in msg for k in ["safest", "safe options", "safe colleges", "my safe", "safety"]):
         return "SAFEST_OPTIONS"
-    if any(k in msg for k in ["aspirational", "reach options", "dream colleges", "dream options"]):
+    if any(k in msg for k in ["aspirational", "reach options", "dream colleges", "dream options",
+                               "ambitious", "stretch goals"]):
         return "ASPIRATIONAL_OPTIONS"
-    if any(k in msg for k in ["likely options", "likely colleges", "moderate options", "realistic options"]):
+    if any(k in msg for k in ["likely options", "likely colleges", "moderate options",
+                               "realistic options", "realistic"]):
         return "LIKELY_OPTIONS"
 
-    # 6. Colleges general availability
-    if any(k in msg for k in ["which colleges can i get", "what colleges can i get", "colleges for my rank", "where can i get", "what can i get"]):
+    # 6. General college availability
+    if any(k in msg for k in ["which colleges can i get", "what colleges can i get",
+                               "colleges for my rank", "where can i get", "what can i get",
+                               "which college", "available colleges", "eligible for"]):
         return "COLLEGES_AVAILABLE"
 
-    # 7. AI and Curriculum matching
-    if any(k in msg for k in ["best for ai", "best for machine learning", "programme for ai", "teach ai", "matches my interests", "match my interests"]):
+    # 7. College comparison
+    if any(k in msg for k in ["compare", "vs", "versus", "better between", "which is better",
+                               "difference between", "compare nit", "compare iit", "iit vs nit",
+                               "nit vs iiit", "which one is better"]):
+        return "COLLEGE_COMPARE"
+
+    # 8. AI and Curriculum matching
+    if any(k in msg for k in ["best for ai", "best for machine learning", "programme for ai",
+                               "teach ai", "matches my interests", "match my interests",
+                               "ai curriculum", "ml curriculum", "good for ai", "ai program",
+                               "best ai college"]):
         return "AI_CURRICULUM"
 
-    # 8. Placements & Job roles
-    if any(k in msg for k in ["better placement", "best placement", "compare placement", "highest ctc", "placement rate", "placements"]):
+    # 9. Placements & Job roles
+    if any(k in msg for k in ["better placement", "best placement", "compare placement",
+                               "highest ctc", "placement rate", "placements", "salary",
+                               "package", "lpa", "ctc", "top package"]):
         return "PLACEMENTS_COMPARE"
-    if any(k in msg for k in ["job roles", "typical roles", "what jobs", "career roles", "job profiles"]):
+    if any(k in msg for k in ["job roles", "typical roles", "what jobs", "career roles",
+                               "job profiles", "what kind of jobs", "after graduation"]):
         return "JOB_ROLES"
 
-    # 9. Fees, Scholarships, Hostels, Location
-    if any(k in msg for k in ["fee", "fees", "tuition", "cost of study", "how expensive"]):
+    # 10. Fees, Scholarships, Hostels, Location
+    if any(k in msg for k in ["fee", "fees", "tuition", "cost of study", "how expensive",
+                               "fee structure", "how much does it cost", "total cost"]):
         return "FEES_INQUIRY"
-    if any(k in msg for k in ["scholarship", "scholarships", "fee waiver", "financial aid", "concession"]):
+    if any(k in msg for k in ["scholarship", "scholarships", "fee waiver", "financial aid",
+                               "concession", "merit scholarship", "need based"]):
         return "SCHOLARSHIPS"
-    if any(k in msg for k in ["hostel", "hostels", "accommodation", "dorm", "hostel fee"]):
+    if any(k in msg for k in ["hostel", "hostels", "accommodation", "dorm", "hostel fee",
+                               "room", "campus stay", "boarding"]):
         return "HOSTEL_INQUIRY"
-    if any(k in msg for k in ["located", "location", "locations", "which city", "which state"]):
+    if any(k in msg for k in ["located", "location", "locations", "which city", "which state",
+                               "where is", "where are", "campus location"]):
         return "LOCATION_INQUIRY"
 
-    # 10. Higher studies & Entrepreneurship
-    if any(k in msg for k in ["higher study", "higher studies", "ms abroad", "masters", "phd", "research"]):
+    # 11. Higher studies & Entrepreneurship
+    if any(k in msg for k in ["higher study", "higher studies", "ms abroad", "masters",
+                               "phd", "research", "graduate school", "foreign university",
+                               "ms program", "phd program"]):
         return "HIGHER_STUDIES"
-    if any(k in msg for k in ["entrepreneurship", "startup", "startups", "incubator", "incubation", "ventures"]):
+    if any(k in msg for k in ["entrepreneurship", "startup", "startups", "incubator",
+                               "incubation", "ventures", "own company", "found a company"]):
         return "ENTREPRENEURSHIP"
 
+    # 12. Admission chances for specific college (e.g. "can I get IIIT Hyderabad?")
+    if any(k in msg for k in ["can i get", "my chances", "will i get", "chance at",
+                               "chances at", "chance of getting", "probability of"]):
+        return "COLLEGES_AVAILABLE"
+
+    # 13. State quota / home state queries
+    if any(k in msg for k in ["state quota", "home state", "hs quota", "other state quota",
+                               "os quota", "domicile"]):
+        return "STATE_QUOTA"
+
+    # 14. Cutoff queries
+    if any(k in msg for k in ["cutoff", "cutoffs", "closing rank", "opening rank",
+                               "last rank", "last year cutoff", "2024 cutoff", "2023 cutoff"]):
+        return "CUTOFF_INQUIRY"
+
     return "GENERAL_CONVERSATION"
+
+
+# ── Query Processor ──────────────────────────────────────────────────────────
 
 def process_counselling_query(
     message: str,
@@ -100,382 +177,503 @@ def process_counselling_query(
     rank = student.rank if student.rank is not None else 8000
     category = student.category or "General"
 
+    # ── NIT Admission ────────────────────────────────────────────────────────
     if intent == "NIT_ADMISSION":
         rows = filter_and_evaluate_admission(rank, category, programs, college_type="NIT")
-        columns = ["College", "Branch", "Candidate Rank", "Historical Cutoff", "Rank Difference", "Likelihood Range", "Tier", "Median CTC"]
+        if not rows:
+            return (
+                f"No NIT programmes found for rank #{rank:,} ({category}). "
+                "NITs typically accept JEE Main scores. If your rank is very high (>50,000), consider State-level counselling options.",
+                None
+            )
+        columns = ["College", "Branch", "Candidate Rank", "Historical Cutoff",
+                   "Rank Difference", "Likelihood Range", "Tier", "Median CTC"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Candidate Rank": r["candidate_rank"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Tier": r["tier"], "Median CTC": r["median_ctc"]
+        } for r in rows]
+
+        safe_count   = sum(1 for r in rows if r["tier"] == "Safe")
+        likely_count = sum(1 for r in rows if r["tier"] == "Likely")
+        asp_count    = sum(1 for r in rows if r["tier"] == "Aspirational")
+
+        explanation = (
+            f"Based on your rank of **#{rank:,}** ({category} category), here are the National Institutes of Technology (NITs) in our database. "
+            f"You have **{safe_count} Safe**, **{likely_count} Likely**, and **{asp_count} Aspirational** options. "
+            "NITs accept JEE Main scores via JoSAA counselling. Review the table below."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"NIT Admission Possibilities — Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── IIT Admission ────────────────────────────────────────────────────────
+    elif intent == "IIT_ADMISSION":
+        rows = filter_and_evaluate_admission(rank, category, programs, college_type="IIT")
+        if not rows:
+            return (
+                f"No IIT programmes found for rank #{rank:,} ({category}) in our database. "
+                "IITs admit students through JEE Advanced. If you appeared for JEE Main only, "
+                "you need to first qualify JEE Advanced to be eligible for IIT counselling. "
+                "Consider NIT/IIIT options for JEE Main rank.",
+                None
+            )
+        columns = ["College", "Branch", "Candidate Rank", "Historical Cutoff",
+                   "Rank Difference", "Likelihood Range", "Tier", "Median CTC"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Candidate Rank": r["candidate_rank"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Tier": r["tier"], "Median CTC": r["median_ctc"]
+        } for r in rows]
+
+        safe_count   = sum(1 for r in rows if r["tier"] == "Safe")
+        likely_count = sum(1 for r in rows if r["tier"] == "Likely")
+        asp_count    = sum(1 for r in rows if r["tier"] == "Aspirational")
+
+        explanation = (
+            f"IIT evaluation for JEE Advanced rank **#{rank:,}** ({category}). "
+            f"You have **{safe_count} Safe**, **{likely_count} Likely**, and **{asp_count} Aspirational** IIT options. "
+            "IITs are admitted through JoSAA counselling using JEE Advanced scores."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"IIT Admission Possibilities — Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── IIIT Admission ───────────────────────────────────────────────────────
+    elif intent == "IIIT_ADMISSION":
+        rows = filter_and_evaluate_admission(rank, category, programs, college_type="IIIT")
+        if not rows:
+            return (
+                f"No IIIT programmes found for rank #{rank:,} ({category}) in our database. "
+                "IIITs specialise in IT and Computing. Top IIITs (like IIIT Hyderabad) have very competitive cutoffs.",
+                None
+            )
+        columns = ["College", "Branch", "Candidate Rank", "Historical Cutoff",
+                   "Rank Difference", "Likelihood Range", "Tier", "Median CTC"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Candidate Rank": r["candidate_rank"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Tier": r["tier"], "Median CTC": r["median_ctc"]
+        } for r in rows]
+
+        explanation = (
+            f"IIIT evaluation for rank **#{rank:,}** ({category}). "
+            "IIITs focus on IT/Computer Science and are excellent for software and AI careers. "
+            "They are admitted via JoSAA (JEE Main) counselling."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"IIIT Admission Possibilities — Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── GFTI Admission ───────────────────────────────────────────────────────
+    elif intent == "GFTI_ADMISSION":
+        rows = filter_and_evaluate_admission(rank, category, programs, college_type="GFTI")
+        if not rows:
+            return (
+                "No GFTI programmes found in our current database. "
+                "Government Funded Technical Institutes (GFTIs) are admitted via JoSAA using JEE Main scores.",
+                None
+            )
+        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference",
+                   "Likelihood Range", "Tier", "Location"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Tier": r["tier"], "Location": r["location"]
+        } for r in rows]
+        explanation = f"GFTI options for rank **#{rank:,}** ({category})."
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"GFTI Admission Options — Rank #{rank:,}",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── College comparison ───────────────────────────────────────────────────
+    elif intent == "COLLEGE_COMPARE":
+        rows = get_placement_comparison(programs)
+        # Also attach admission info
+        all_eval = filter_and_evaluate_admission(rank, category, programs)
+        eval_map = {r["college"] + "|" + r["branch"]: r for r in all_eval}
+
+        columns = ["College", "Branch", "Type", "Tier", "Likelihood Range",
+                   "Median CTC", "Placement Rate", "Top Recruiters"]
         table_rows = []
-        for r in rows:
+        for r in rows[:8]:
+            key = r["college"] + "|" + r["branch"]
+            ev  = eval_map.get(key, {})
             table_rows.append({
                 "College": r["college"],
                 "Branch": r["branch"],
-                "Candidate Rank": r["candidate_rank"],
-                "Historical Cutoff": r["historical_cutoff"],
-                "Rank Difference": r["rank_difference"],
-                "Likelihood Range": r["likelihood_range"],
-                "Tier": r["tier"],
-                "Median CTC": r["median_ctc"]
-            })
-
-        safe_count = sum(1 for r in rows if r["tier"] == "Safe")
-        likely_count = sum(1 for r in rows if r["tier"] == "Likely")
-        asp_count = sum(1 for r in rows if r["tier"] == "Aspirational")
-
-        explanation = (
-            f"Based on your rank of **#{rank:,}** ({category} category), we evaluated all National Institutes of Technology (NITs) in our database. "
-            f"You have **{safe_count} Safe** option(s), **{likely_count} Likely** option(s), and **{asp_count} Aspirational** reach option(s). "
-            f"Review the deterministic admission likelihood comparison table below."
-        )
-        res = StructuredQueryResult(
-            query_type=intent,
-            title=f"NIT Admission Possibilities for Rank #{rank:,} ({category})",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
-        )
-        return explanation, res
-
-    elif intent == "COLLEGES_AVAILABLE":
-        rows = filter_and_evaluate_admission(rank, category, programs)
-        # Filter to Safe and Likely options for clarity
-        relevant = [r for r in rows if r["tier"] in ("Safe", "Likely", "Aspirational")][:8]
-        columns = ["College", "Branch", "Type", "Historical Cutoff", "Rank Difference", "Likelihood Range", "Tier"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Type": r["type"],
-                "Historical Cutoff": r["historical_cutoff"],
-                "Rank Difference": r["rank_difference"],
-                "Likelihood Range": r["likelihood_range"],
-                "Tier": r["tier"]
-            }
-            for r in relevant
-        ]
-        explanation = (
-            f"For rank **#{rank:,}** ({category}), here are the institutions where you stand a strong-to-moderate chance of admission across Safe, Likely, and Aspirational tiers. "
-            "Options are ranked by eligibility feasibility and cutoff margins."
-        )
-        res = StructuredQueryResult(
-            query_type=intent,
-            title=f"Colleges Available for Rank #{rank:,} ({category})",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
-        )
-        return explanation, res
-
-    elif intent == "SAFEST_OPTIONS":
-        rows = filter_and_evaluate_admission(rank, category, programs, tier_filter="Safe")
-        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference", "Likelihood Range", "Median CTC", "Location"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Historical Cutoff": r["historical_cutoff"],
-                "Rank Difference": r["rank_difference"],
-                "Likelihood Range": r["likelihood_range"],
-                "Median CTC": r["median_ctc"],
-                "Location": r["location"]
-            }
-            for r in rows
-        ]
-        explanation = (
-            f"Here are your **Safest options** where your rank of **#{rank:,}** provides a healthy cushion (margin > 12%) "
-            "over historical closing cutoffs. These serve as reliable safety nets to guarantee seat security."
-        )
-        res = StructuredQueryResult(
-            query_type=intent,
-            title=f"Safest Admission Options for Rank #{rank:,} ({category})",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
-        )
-        return explanation, res
-
-    elif intent == "LIKELY_OPTIONS":
-        rows = filter_and_evaluate_admission(rank, category, programs, tier_filter="Likely")
-        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference", "Likelihood Range", "Median CTC"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Historical Cutoff": r["historical_cutoff"],
-                "Rank Difference": r["rank_difference"],
-                "Likelihood Range": r["likelihood_range"],
-                "Median CTC": r["median_ctc"]
-            }
-            for r in rows
-        ]
-        explanation = (
-            f"These programmes are your **Likely options** (estimated likelihood `50% - 75%`). Your rank **#{rank:,}** is within "
-            "competitive striking distance of historical closing ranks."
-        )
-        res = StructuredQueryResult(
-            query_type=intent,
-            title=f"Likely Strategic Targets for Rank #{rank:,} ({category})",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
-        )
-        return explanation, res
-
-    elif intent == "ASPIRATIONAL_OPTIONS":
-        rows = filter_and_evaluate_admission(rank, category, programs, tier_filter="Aspirational")
-        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference", "Likelihood Range", "Median CTC"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Historical Cutoff": r["historical_cutoff"],
-                "Rank Difference": r["rank_difference"],
-                "Likelihood Range": r["likelihood_range"],
-                "Median CTC": r["median_ctc"]
-            }
-            for r in rows
-        ]
-        explanation = (
-            f"These are your **Aspirational reach options** (likelihood `20% - 40%`). While your rank **#{rank:,}** is numerically higher than "
-            "2024 closing ranks, seat vacancies in later sliding or spot rounds could make an admission possible."
-        )
-        res = StructuredQueryResult(
-            query_type=intent,
-            title=f"Aspirational Dream Choices for Rank #{rank:,} ({category})",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
-        )
-        return explanation, res
-
-    elif intent == "BRANCH_CSE":
-        rows = filter_and_evaluate_admission(rank, category, programs, branch_keyword="CSE")
-        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference", "Likelihood Range", "Tier", "Median CTC"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Historical Cutoff": r["historical_cutoff"],
-                "Rank Difference": r["rank_difference"],
-                "Likelihood Range": r["likelihood_range"],
-                "Tier": r["tier"],
-                "Median CTC": r["median_ctc"]
-            }
-            for r in rows
-        ]
-        explanation = (
-            f"Here is your Computer Science and Engineering (CSE / IT) eligibility evaluation for rank **#{rank:,}** ({category}). "
-            "Computer Science is consistently the most competitive branch across all counselling rounds."
-        )
-        res = StructuredQueryResult(
-            query_type=intent,
-            title=f"Computer Science (CSE) Possibilities for Rank #{rank:,}",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
-        )
-        return explanation, res
-
-    elif intent == "AI_CURRICULUM":
-        matches = find_programmes_matching_interests(student, programs, focus_keyword="Artificial Intelligence")
-        top_matches = matches[:6]
-        columns = ["College", "Branch", "AI/ML Relevance", "Curriculum Focus", "Curriculum Fit Score", "Median CTC"]
-        table_rows = [
-            {
-                "College": m["college"],
-                "Branch": m["branch"],
-                "AI/ML Relevance": m["ai_ml_relevance"],
-                "Curriculum Focus": m["curriculum_focus"],
-                "Curriculum Fit Score": m["curriculum_fit_score"],
-                "Median CTC": m["median_ctc"]
-            }
-            for m in top_matches
-        ]
-        mismatch_note = next((m["mismatch_warning"] for m in top_matches if m.get("mismatch_warning")), None)
-        explanation = (
-            "Programmes with the strongest curriculum alignment in Artificial Intelligence, Machine Learning, and Data Systems "
-            "are listed below. PES University (specialized AI degree) and IIIT Hyderabad (NLP/Vision research culture) lead the index."
-        )
-        res = StructuredQueryResult(
-            query_type=intent,
-            title="Top Programmes for Artificial Intelligence & Machine Learning",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT,
-            mismatch_warning=mismatch_note
-        )
-        return explanation, res
-
-    elif intent == "PLACEMENTS_COMPARE":
-        rows = get_placement_comparison(programs)[:7]
-        columns = ["College", "Branch", "Median CTC", "Placement Rate", "Top Recruiters", "Key Domains"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
+                "Type": r.get("type", ""),
+                "Tier": ev.get("tier", "—"),
+                "Likelihood Range": ev.get("likelihood_range", "—"),
                 "Median CTC": r["median_ctc"],
                 "Placement Rate": r["placement_rate"],
                 "Top Recruiters": r["top_recruiters"],
-                "Key Domains": r["career_domains"]
-            }
-            for r in rows
-        ]
+            })
+
         explanation = (
-            "Here is the verified placement and salary comparison across programmes, sorted by median CTC. "
-            "IIT Bombay CSE, IIIT Hyderabad CSE, and IIT Delhi Mathematics & Computing lead in recruitment compensation."
+            f"Here is a comparison of colleges for rank **#{rank:,}** ({category}), "
+            "showing both your admission likelihood and placement outcomes. "
+            "Use this to weigh brand/placement value against your actual probability of admission."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Comparative Placement Outcomes (Median CTC & Rates)",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
+            title="College Comparison — Admission Chances + Placements",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
         )
-        return explanation, res
+
+    # ── Branch queries ───────────────────────────────────────────────────────
+    elif intent in ("BRANCH_CSE", "BRANCH_ECE", "BRANCH_MECH",
+                    "BRANCH_CIVIL", "BRANCH_EE", "BRANCH_DS_AI"):
+
+        branch_map = {
+            "BRANCH_CSE":   ("CSE", "Computer Science & Engineering (CSE / IT)"),
+            "BRANCH_ECE":   ("ECE", "Electronics & Communication Engineering (ECE)"),
+            "BRANCH_MECH":  ("Mech", "Mechanical Engineering"),
+            "BRANCH_CIVIL": ("Civil", "Civil Engineering"),
+            "BRANCH_EE":    ("Electrical", "Electrical Engineering"),
+            "BRANCH_DS_AI": ("Data Science", "Data Science / Artificial Intelligence"),
+        }
+        bk, branch_label = branch_map[intent]
+        rows = filter_and_evaluate_admission(rank, category, programs, branch_keyword=bk)
+        if not rows:
+            return (
+                f"No {branch_label} programmes found for rank #{rank:,} ({category}) in our database. "
+                "Try broadening your search or checking alternate branches.",
+                None
+            )
+
+        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference",
+                   "Likelihood Range", "Tier", "Median CTC"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Tier": r["tier"], "Median CTC": r["median_ctc"]
+        } for r in rows]
+
+        explanation = (
+            f"Here is your **{branch_label}** eligibility evaluation for rank **#{rank:,}** ({category}). "
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"{branch_label} Options for Rank #{rank:,}",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── Cutoff inquiry ───────────────────────────────────────────────────────
+    elif intent == "CUTOFF_INQUIRY":
+        rows = filter_and_evaluate_admission(rank, category, programs)[:12]
+        columns = ["College", "Branch", "Category", "Historical Cutoff (Closing)",
+                   "Cutoff Year/Round", "Rank Difference", "Tier"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Category": r["category"],
+            "Historical Cutoff (Closing)": r["historical_cutoff"],
+            "Cutoff Year/Round": r["cutoff_year_round"],
+            "Rank Difference": r["rank_difference"],
+            "Tier": r["tier"]
+        } for r in rows]
+        explanation = (
+            f"Historical closing cutoffs for rank **#{rank:,}** ({category}). "
+            "All cutoffs are from 2024 Round 6 (final closing). "
+            "Positive rank difference means you are ranked better than the cutoff — the larger the positive value, the safer the seat. "
+            "Note: Cutoffs shift ±5-10% annually."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"Historical Cutoffs vs Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── State quota ──────────────────────────────────────────────────────────
+    elif intent == "STATE_QUOTA":
+        explanation = (
+            "**State Quota & Home State Seats:** \n\n"
+            "• **NITs** — 50% of seats are Home State Quota (HS). These have significantly easier cutoffs than the Other State (OS) quota. "
+            "If you are applying to your home state's NIT, your HS quota cutoffs can be 20-40% more relaxed than OS.\n\n"
+            "• **IITs & IIITs** — No state quota; all seats are filled on All-India merit via JoSAA.\n\n"
+            "• **State Government Colleges** — Conducted through state counselling (e.g. TS EAMCET, MHT-CET, KCET). "
+            "These use separate rank lists and are NOT part of JoSAA.\n\n"
+            "To get precise HS vs OS cutoffs for a specific NIT, please share the NIT name and I will look it up."
+        )
+        return explanation, None
+
+    # ── Colleges available ───────────────────────────────────────────────────
+    elif intent == "COLLEGES_AVAILABLE":
+        rows = filter_and_evaluate_admission(rank, category, programs)
+        relevant = [r for r in rows if r["tier"] in ("Safe", "Likely", "Aspirational")][:10]
+        columns = ["College", "Branch", "Type", "Historical Cutoff",
+                   "Rank Difference", "Likelihood Range", "Tier"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Type": r["type"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Tier": r["tier"]
+        } for r in relevant]
+        explanation = (
+            f"For rank **#{rank:,}** ({category}), here are institutions where you have a realistic admission chance "
+            "across Safe, Likely, and Aspirational tiers."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"Colleges Available for Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── Tier-specific ────────────────────────────────────────────────────────
+    elif intent == "SAFEST_OPTIONS":
+        rows = filter_and_evaluate_admission(rank, category, programs, tier_filter="Safe")
+        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference",
+                   "Likelihood Range", "Median CTC", "Location"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Median CTC": r["median_ctc"], "Location": r["location"]
+        } for r in rows]
+        explanation = (
+            f"Your **Safe options** for rank **#{rank:,}** — these have a >12% positive margin over 2024 closing cutoffs, "
+            "giving you a high probability of securing a seat."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"Safest Options for Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    elif intent == "LIKELY_OPTIONS":
+        rows = filter_and_evaluate_admission(rank, category, programs, tier_filter="Likely")
+        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference",
+                   "Likelihood Range", "Median CTC"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Median CTC": r["median_ctc"]
+        } for r in rows]
+        explanation = (
+            f"Your **Likely options** (50-75% probability) for rank **#{rank:,}** ({category}). "
+            "These are competitive targets within realistic striking range."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"Likely Options for Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    elif intent == "ASPIRATIONAL_OPTIONS":
+        rows = filter_and_evaluate_admission(rank, category, programs, tier_filter="Aspirational")
+        columns = ["College", "Branch", "Historical Cutoff", "Rank Difference",
+                   "Likelihood Range", "Median CTC"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Historical Cutoff": r["historical_cutoff"],
+            "Rank Difference": r["rank_difference"],
+            "Likelihood Range": r["likelihood_range"],
+            "Median CTC": r["median_ctc"]
+        } for r in rows]
+        explanation = (
+            f"Your **Aspirational reach options** (20-40% probability) for rank **#{rank:,}** ({category}). "
+            "Worth including — late rounds and sliding can sometimes make these possible."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title=f"Aspirational Options for Rank #{rank:,} ({category})",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
+
+    # ── AI Curriculum ────────────────────────────────────────────────────────
+    elif intent == "AI_CURRICULUM":
+        matches = find_programmes_matching_interests(student, programs,
+                                                     focus_keyword="Artificial Intelligence")
+        top_matches = matches[:6]
+        columns = ["College", "Branch", "AI/ML Relevance", "Curriculum Focus",
+                   "Curriculum Fit Score", "Median CTC"]
+        table_rows = [{
+            "College": m["college"], "Branch": m["branch"],
+            "AI/ML Relevance": m["ai_ml_relevance"],
+            "Curriculum Focus": m["curriculum_focus"],
+            "Curriculum Fit Score": m["curriculum_fit_score"],
+            "Median CTC": m["median_ctc"]
+        } for m in top_matches]
+        mismatch_note = next(
+            (m["mismatch_warning"] for m in top_matches if m.get("mismatch_warning")), None
+        )
+        explanation = (
+            "Programmes ranked by AI/ML curriculum strength. Specialised AI degrees (IIIT Hyderabad, PES University) "
+            "and IITs with strong research labs top this list."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title="Top Programmes for Artificial Intelligence & Machine Learning",
+            columns=columns, rows=table_rows,
+            disclaimer=DISCLAIMER_TEXT, mismatch_warning=mismatch_note
+        )
+
+    # ── Placements ───────────────────────────────────────────────────────────
+    elif intent == "PLACEMENTS_COMPARE":
+        rows = get_placement_comparison(programs)[:8]
+        columns = ["College", "Branch", "Median CTC", "Placement Rate",
+                   "Top Recruiters", "Key Domains"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Median CTC": r["median_ctc"],
+            "Placement Rate": r["placement_rate"],
+            "Top Recruiters": r["top_recruiters"],
+            "Key Domains": r["career_domains"]
+        } for r in rows]
+        explanation = (
+            "Placement comparison sorted by median CTC, using verified data from our database. "
+            "IIT Bombay CSE, IIIT Hyderabad CSE, and IIT Delhi M&C lead in compensation."
+        )
+        return explanation, StructuredQueryResult(
+            query_type=intent,
+            title="Placement Comparison — Median CTC & Placement Rates",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
+        )
 
     elif intent == "JOB_ROLES":
         rows = get_job_roles_information(programs)[:7]
         columns = ["College", "Branch", "Typical Roles", "Median CTC", "Key Recruiters"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Typical Roles": r["typical_roles"],
-                "Median CTC": r["median_ctc"],
-                "Key Recruiters": r["key_recruiters"]
-            }
-            for r in rows
-        ]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Typical Roles": r["typical_roles"],
+            "Median CTC": r["median_ctc"],
+            "Key Recruiters": r["key_recruiters"]
+        } for r in rows]
         explanation = (
-            "Below are verified typical job profiles and roles that graduates from each programme step into, "
-            "spanning Software Development, AI/ML Engineering, Quantitative Analytics, and Core Hardware."
+            "Graduate job profiles across programmes, spanning Software Engineering, "
+            "AI/ML Research, Quantitative Finance, and Core Hardware."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Typical Graduate Roles & Career Profiles",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
+            title="Graduate Roles & Career Profiles",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
         )
-        return explanation, res
 
+    # ── Fees / Scholarships / Hostel / Location ──────────────────────────────
     elif intent == "FEES_INQUIRY":
         rows = get_fees_information(programs)[:8]
-        columns = ["College", "Branch", "Type", "Annual Tuition Fee", "Hostel Available", "Annual Hostel Fee", "Location"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Type": r["type"],
-                "Annual Tuition Fee": r["annual_tuition_fee"],
-                "Hostel Available": r["hostel_available"],
-                "Annual Hostel Fee": r["annual_hostel_fee"],
-                "Location": r["location"]
-            }
-            for r in rows
-        ]
+        columns = ["College", "Branch", "Type", "Annual Tuition Fee",
+                   "Hostel Available", "Annual Hostel Fee", "Location"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"], "Type": r["type"],
+            "Annual Tuition Fee": r["annual_tuition_fee"],
+            "Hostel Available": r["hostel_available"],
+            "Annual Hostel Fee": r["annual_hostel_fee"],
+            "Location": r["location"]
+        } for r in rows]
         explanation = (
-            "Here is the factual fee schedule for relevant institutions. Government and National Institutes (NITs, IITs, State Universities) "
-            "offer highly subsidized tuition compared to private universities, and Jadavpur University offers exceptional ROI."
+            "Fee comparison across institutions. NITs, IITs and IIITs are government-funded "
+            "with heavily subsidised tuition (₹1.5-2.5 L/yr). Private universities charge significantly more."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Annual Tuition and Hostel Fee Comparison",
-            columns=columns,
-            rows=table_rows,
-            disclaimer="Fee structures are indicative based on 2024 academic year announcements and exclude refundable caution deposits."
+            title="Annual Tuition & Hostel Fee Comparison",
+            columns=columns, rows=table_rows,
+            disclaimer="Fee figures are based on 2024 academic year data and exclude caution deposits."
         )
-        return explanation, res
 
     elif intent == "SCHOLARSHIPS":
         rows = get_scholarships_information(programs)[:7]
-        columns = ["College", "Branch", "Type", "Scholarship & Fee Remission Schemes", "Annual Tuition"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Type": r["type"],
-                "Scholarship & Fee Remission Schemes": r["scholarships"],
-                "Annual Tuition": r["annual_tuition_fee"]
-            }
-            for r in rows
-        ]
+        columns = ["College", "Branch", "Type",
+                   "Scholarship & Fee Remission Schemes", "Annual Tuition"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"], "Type": r["type"],
+            "Scholarship & Fee Remission Schemes": r["scholarships"],
+            "Annual Tuition": r["annual_tuition_fee"]
+        } for r in rows]
         explanation = (
-            "Verified scholarship and fee waiver guidelines. All central NITs and IITs offer 100% tuition remission "
-            "for SC/ST students and candidates with annual family income below ₹1 Lakh, and 66% remission for income between ₹1-5 Lakhs."
+            "Scholarship schemes. All central NITs and IITs provide 100% tuition remission "
+            "for SC/ST students and family income < ₹1 Lakh, and 66% remission for ₹1–5 Lakhs income."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Official Scholarship Schemes and Fee Remissions",
-            columns=columns,
-            rows=table_rows,
-            disclaimer="Verify eligibility certificates with the respective institute financial aid office during document verification."
+            title="Scholarship Schemes & Fee Remissions",
+            columns=columns, rows=table_rows,
+            disclaimer="Verify eligibility with the institute's financial aid office during document verification."
         )
-        return explanation, res
 
     elif intent == "HOSTEL_INQUIRY":
         rows = get_hostel_information(programs)[:8]
         columns = ["College", "Location", "Hostel Available", "Annual Hostel & Mess Fee"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Location": r["location"],
-                "Hostel Available": r["hostel_available"],
-                "Annual Hostel & Mess Fee": r["hostel_fee"]
-            }
-            for r in rows
-        ]
+        table_rows = [{
+            "College": r["college"], "Location": r["location"],
+            "Hostel Available": r["hostel_available"],
+            "Annual Hostel & Mess Fee": r["hostel_fee"]
+        } for r in rows]
         explanation = (
-            "Hostel and accommodation details for colleges on your sheet. All premier residential institutes (IITs, NITs, BITS) "
-            "provide mandatory/guaranteed on-campus accommodation with mess facilities."
+            "Hostel availability and accommodation costs. All IITs, NITs, and IIITs "
+            "provide mandatory on-campus housing with mess facilities."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Hostel Accommodation and Living Costs",
-            columns=columns,
-            rows=table_rows,
-            disclaimer="Hostel allotment is generally confirmed upon payment of the semester seat acceptance fee."
+            title="Hostel & Accommodation Details",
+            columns=columns, rows=table_rows,
+            disclaimer="Hostel allotment is confirmed on payment of semester seat acceptance fee."
         )
-        return explanation, res
 
     elif intent == "LOCATION_INQUIRY":
         rows = get_location_information(programs)[:8]
         columns = ["College", "Type", "Location"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Type": r["type"],
-                "Location": r["location"]
-            }
-            for r in rows
-        ]
+        table_rows = [{
+            "College": r["college"], "Type": r["type"], "Location": r["location"]
+        } for r in rows]
         explanation = (
-            "Campus geographic locations. Proximity to tech clusters (like Bengaluru, Delhi-NCR, Hyderabad) provides "
-            "distinct advantages for in-semester internships, meetups, and local industry networking."
+            "Campus locations. Proximity to tech hubs (Bengaluru, Delhi-NCR, Hyderabad, Mumbai) "
+            "is advantageous for internships and local industry networking."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
             title="College Campus Locations",
-            columns=columns,
-            rows=table_rows,
-            disclaimer="Review travel connectivity and climate preferences when ordering your choices."
+            columns=columns, rows=table_rows,
+            disclaimer="Consider travel connectivity when ordering choices."
         )
-        return explanation, res
 
+    # ── Why first rank ───────────────────────────────────────────────────────
     elif intent == "WHY_FIRST_RANK":
         rec_res = generate_recommendations(student)
         top_pref = rec_res.preferences[0] if rec_res.preferences else None
         if not top_pref:
-            return "No recommendation list has been generated yet.", None
+            return "No recommendation list has been generated yet. Please share your rank first.", None
 
         explanation = (
-            f"**{top_pref.program.college_name} - {top_pref.program.branch_name}** is ranked #1 on your strategic preference list "
-            f"because it maximizes your composite score ({top_pref.composite_score}/100).\n\n"
-            f"1. **Strategic Feasibility ({top_pref.tier.value} Tier)**: At rank #{rank:,}, you have a {top_pref.likelihood_range} admission likelihood range "
-            f"relative to its historical closing rank of {top_pref.program.category_cutoffs.get(category, top_pref.program.category_cutoffs['General']).closing_rank:,}.\n"
-            f"2. **Curriculum & Passion Fit**: Matches your interests in {', '.join(top_pref.interest_alignment_tags)}.\n"
-            f"3. **Career & Placement Outcomes**: 95%+ placement rate with a median CTC of ₹{top_pref.program.placement_stats.median_salary_lpa} LPA "
-            f"and top recruiters ({', '.join(top_pref.program.placement_stats.top_recruiters[:3])})."
+            f"**{top_pref.program.college_name} — {top_pref.program.branch_name}** is ranked #1 "
+            f"because it maximises your composite score ({top_pref.composite_score}/100).\n\n"
+            f"1. **Feasibility ({top_pref.tier.value})**: Rank #{rank:,} gives a "
+            f"{top_pref.likelihood_range} admission likelihood.\n"
+            f"2. **Curriculum Fit**: Matches your interests in "
+            f"{', '.join(top_pref.interest_alignment_tags)}.\n"
+            f"3. **Placements**: {top_pref.program.placement_stats.placement_percentage}% placement, "
+            f"₹{top_pref.program.placement_stats.median_salary_lpa} LPA median, "
+            f"recruiters: {', '.join(top_pref.program.placement_stats.top_recruiters[:3])}."
         )
-        columns = ["Preference #", "College", "Branch", "Tier", "Likelihood Range", "Strategy Score", "Median CTC"]
+        columns = ["Preference #", "College", "Branch", "Tier",
+                   "Likelihood Range", "Strategy Score", "Median CTC"]
         table_rows = [{
             "Preference #": "#1",
             "College": top_pref.program.college_name,
@@ -485,91 +683,73 @@ def process_counselling_query(
             "Strategy Score": f"{top_pref.composite_score} / 100",
             "Median CTC": f"₹{top_pref.program.placement_stats.median_salary_lpa} LPA"
         }]
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Reasoning for #1 Preference Allocation",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
+            title="Reasoning for #1 Preference",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
         )
-        return explanation, res
 
+    # ── Higher studies & Entrepreneurship ────────────────────────────────────
     elif intent == "HIGHER_STUDIES":
         rows = get_higher_studies_information(programs)[:7]
-        columns = ["College", "Branch", "Higher Study & Research Track Record", "Tier Rating"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Higher Study & Research Track Record": r["higher_studies"],
-                "Tier Rating": r["tier"]
-            }
-            for r in rows
-        ]
+        columns = ["College", "Branch", "Higher Study & Research Record", "Tier Rating"]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Higher Study & Research Record": r["higher_studies"],
+            "Tier Rating": r["tier"]
+        } for r in rows]
         explanation = (
-            "Higher studies and international graduate school admit records. Premier institutes (IIT Bombay, IIT Delhi, IIIT Hyderabad) "
-            "have dedicated research labs and strong faculty recommendation letters leading to direct PhD/MS admissions in the US and Europe."
+            "Graduate school and research track records. IIT Bombay, IIT Delhi, and IIIT Hyderabad "
+            "lead in MS/PhD admits to top global universities (Stanford, MIT, CMU, ETH Zurich)."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Graduate Studies and Academic Research Opportunities",
-            columns=columns,
-            rows=table_rows,
-            disclaimer="Graduate admissions depend directly on undergraduate CGPA, research publications, and GRE/TOEFL scores."
+            title="Graduate Studies & Research Opportunities",
+            columns=columns, rows=table_rows,
+            disclaimer="Graduate outcomes depend on CGPA, research experience, and GRE/TOEFL scores."
         )
-        return explanation, res
 
     elif intent == "ENTREPRENEURSHIP":
         rows = get_entrepreneurship_information(programs)[:7]
         columns = ["College", "Branch", "Campus Startup & Incubation Ecosystem"]
-        table_rows = [
-            {
-                "College": r["college"],
-                "Branch": r["branch"],
-                "Campus Startup & Incubation Ecosystem": r["entrepreneurship_support"]
-            }
-            for r in rows
-        ]
+        table_rows = [{
+            "College": r["college"], "Branch": r["branch"],
+            "Campus Startup & Incubation Ecosystem": r["entrepreneurship_support"]
+        } for r in rows]
         explanation = (
-            "Entrepreneurship support, incubation facilities, and student venture funding across campuses. "
-            "IIT Madras Research Park, IIIT Hyderabad CIE, and SINE at IIT Bombay lead in university startup creation."
+            "Entrepreneurship ecosystems. IIT Madras Research Park, SINE at IIT Bombay, "
+            "and IIIT Hyderabad CIE lead in student startup creation and seed funding."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title="Campus Entrepreneurship and Incubation Support",
-            columns=columns,
-            rows=table_rows,
-            disclaimer="Seed funding amounts and incubation space depend on annual faculty and investor committee evaluations."
+            title="Campus Entrepreneurship & Incubation",
+            columns=columns, rows=table_rows,
+            disclaimer="Funding depends on annual faculty and investor committee decisions."
         )
-        return explanation, res
 
+    # ── Preference list ──────────────────────────────────────────────────────
     elif intent == "PREFERENCE_LIST":
         rec_res = generate_recommendations(student)
-        columns = ["Preference #", "College", "Branch", "Tier", "Likelihood Range", "Strategy Score", "Median CTC"]
-        table_rows = [
-            {
-                "Preference #": f"#{idx}",
-                "College": p.program.college_name,
-                "Branch": p.program.branch_name,
-                "Tier": p.tier.value,
-                "Likelihood Range": p.likelihood_range,
-                "Strategy Score": f"{p.composite_score} / 100",
-                "Median CTC": f"₹{p.program.placement_stats.median_salary_lpa} LPA"
-            }
-            for idx, p in enumerate(rec_res.preferences, 1)
-        ]
+        columns = ["Preference #", "College", "Branch", "Tier",
+                   "Likelihood Range", "Strategy Score", "Median CTC"]
+        table_rows = [{
+            "Preference #": f"#{idx}",
+            "College": p.program.college_name,
+            "Branch": p.program.branch_name,
+            "Tier": p.tier.value,
+            "Likelihood Range": p.likelihood_range,
+            "Strategy Score": f"{p.composite_score} / 100",
+            "Median CTC": f"₹{p.program.placement_stats.median_salary_lpa} LPA"
+        } for idx, p in enumerate(rec_res.preferences, 1)]
         explanation = (
-            f"Here is your balanced counselling preference list for rank **#{rank:,}** ({category}). "
-            "It strategically sequences Aspirational reach programs at the top, high-probability Likely programs in the middle, "
-            "and secure Safe programs at the base."
+            f"Your balanced choice-filling sheet for rank **#{rank:,}** ({category}). "
+            "Aspirational options come first, Likely in the middle, Safe at the base — "
+            "exactly as recommended for JoSAA/CSAB strategy."
         )
-        res = StructuredQueryResult(
+        return explanation, StructuredQueryResult(
             query_type=intent,
-            title=f"Strategic Choice Filling Preference Sheet for Rank #{rank:,}",
-            columns=columns,
-            rows=table_rows,
-            disclaimer=DISCLAIMER_TEXT
+            title=f"Strategic Preference Sheet — Rank #{rank:,}",
+            columns=columns, rows=table_rows, disclaimer=DISCLAIMER_TEXT
         )
-        return explanation, res
 
     return "", None

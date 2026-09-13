@@ -305,6 +305,54 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ══════════════ ABOUT ════════════════════════════════════ */}
+      <section id="about" className="about-section" aria-labelledby="about-heading">
+        <div className="section-container">
+          <div className="section-header">
+            <span className="section-eyebrow">🎓 About AdmissionAI</span>
+            <h2 className="section-title" id="about-heading">Built for Indian Engineering Students</h2>
+            <p className="section-subtitle">
+              AdmissionAI is an agentic AI counselling platform that helps JEE students
+              make smarter admission decisions using historical cutoff data, AI reasoning and placement insights.
+            </p>
+          </div>
+          <div className="about-grid">
+            <div className="about-card">
+              <span className="about-card-icon">🎯</span>
+              <h3 className="about-card-title">Our Mission</h3>
+              <p className="about-card-desc">
+                To give every student — regardless of background or access to coaching — a data-driven,
+                personalised admission strategy that maximises their chances of getting into the right college.
+              </p>
+            </div>
+            <div className="about-card">
+              <span className="about-card-icon">🤖</span>
+              <h3 className="about-card-title">Agentic AI</h3>
+              <p className="about-card-desc">
+                Our AI agent combines a large language model with a deterministic cutoff engine.
+                It reasons about your rank, category and interests to produce explainable, accurate recommendations.
+              </p>
+            </div>
+            <div className="about-card">
+              <span className="about-card-icon">📊</span>
+              <h3 className="about-card-title">Data-Driven</h3>
+              <p className="about-card-desc">
+                Powered by historical JoSAA and CSAB round-wise cutoff data.
+                Every recommendation comes with a likelihood range, tier classification and AI rationale.
+              </p>
+            </div>
+            <div className="about-card">
+              <span className="about-card-icon">🏆</span>
+              <h3 className="about-card-title">Student First</h3>
+              <p className="about-card-desc">
+                Covers 500+ programmes across NITs, IIITs, GFTIs and top private colleges
+                with placement stats, fee details, hostel info and branch career guides.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ══════════════ AGENT WORKFLOW ════════════════════════════ */}
       <AgentWorkflow />
 
