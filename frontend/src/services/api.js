@@ -5,8 +5,14 @@ const API_URL = "https://admissionai-1.onrender.com";
 export async function registerUser(name, email, password) {
   const res = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      password,
+    }),
   });
 
   const data = await res.json().catch(() => ({}));
@@ -21,8 +27,13 @@ export async function registerUser(name, email, password) {
 export async function loginUser(email, password) {
   const res = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
   });
 
   const data = await res.json().catch(() => ({}));
@@ -90,8 +101,10 @@ export async function fetchRecommendations(studentProfile) {
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
+
     throw new Error(
-      errorData.detail || `Recommendation API error: ${res.statusText}`
+      errorData.detail ||
+        `Recommendation API error: ${res.statusText}`
     );
   }
 
