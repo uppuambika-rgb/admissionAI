@@ -8,6 +8,7 @@ import hashlib
 import hmac
 import secrets
 import time
+from typing import Optional
 
 from app.config import settings
 
@@ -83,7 +84,7 @@ def login_user(email: str, password: str) -> dict:
     }
 
 
-def get_user_from_token(token: str) -> dict | None:
+def get_user_from_token(token: str) -> Optional[dict]:
     """Return { name, email } if token is valid and not expired, else None."""
     db    = _get_db()
     entry = db["tokens"].find_one({"token": token})

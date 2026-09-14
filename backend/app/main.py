@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 from app.config import settings
 from app.models.student import StudentProfile, ChatRequest, ChatResponse
@@ -29,8 +29,12 @@ from pathlib import Path
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
-# Check for frontend build
+# Frontend dist — works both locally and on Render
+# The dist folder sits at: <repo_root>/frontend/dist
+# main.py is at:           <repo_root>/backend/app/main.py
+# So we go: main.py → app/ → backend/ → repo_root/ → frontend/dist
 DIST_DIR = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+
 
 @app.get("/api/health")
 def health_check():
@@ -128,22 +132,37 @@ def recommend_endpoint(student: StudentProfile):
 
     return response
 
-# Serve static frontend build if available, otherwise provide API info
+# ── Serve built frontend (production / Render deployment) ─────────────────
 if DIST_DIR.exists():
-    app.mount("/assets", StaticFiles(directory=str(DIST_DIR / "assets")), name="assets")
+    # Mount the assets folder so /assets/xxx.js and /assets/xxx.css are served
+    assets_dir = DIST_DIR / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+    @app.get("/")
+    def serve_root():
+        """Serve the React SPA index.html at the root."""
+        return FileResponse(str(DIST_DIR / "index.html"))
 
     @app.get("/{full_path:path}")
     def serve_frontend(full_path: str):
+        """
+        SPA fallback — serve index.html for all non-API routes
+        so React Router can handle client-side navigation.
+        """
+        # If the path points to a real file in dist, serve it directly
         file_path = DIST_DIR / full_path
         if file_path.exists() and file_path.is_file():
-            return FileResponse(file_path)
-        return FileResponse(DIST_DIR / "index.html")
+            return FileResponse(str(file_path))
+        # Otherwise fall back to index.html (React Router takes over)
+        return FileResponse(str(DIST_DIR / "index.html"))
+
 else:
     @app.get("/")
     def read_root():
         return {
             "app": settings.PROJECT_NAME,
             "version": settings.VERSION,
-            "status": "online",
+            "status": "online — frontend not built yet",
             "docs_url": "/docs"
         }
